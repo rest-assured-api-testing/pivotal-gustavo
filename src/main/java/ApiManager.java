@@ -9,13 +9,11 @@ import static io.restassured.RestAssured.given;
 public class ApiManager {
 
     private static RequestSpecification buildRequest(ApiRequest apiRequest) {
-        Project project = new Project();
-        project.setName("Test 345 new today22");
         return given().headers(apiRequest.getHeaders())
                 .queryParams(apiRequest.getQueryParams())
                 .pathParams(apiRequest.getPathParams())
                 .baseUri(apiRequest.getBaseUri())
-                .body(project)
+                .body(apiRequest.getBody())
                 .contentType(ContentType.JSON)
                 .log().all();
     }
@@ -25,5 +23,14 @@ public class ApiManager {
                 .request(apiRequest.getMethod().name(),
                         apiRequest.getEndpoint());
         return response;
+    }
+
+    public static ApiResponse executeWithBody(ApiRequest apiRequest){
+        Response response = buildRequest(apiRequest)
+                .body(apiRequest.getBody())
+                .request(apiRequest.getMethod().name()
+                        ,apiRequest.getEndpoint());
+        System.out.println( "-*****--" + apiRequest.getBody());
+        return new ApiResponse(response);
     }
 }

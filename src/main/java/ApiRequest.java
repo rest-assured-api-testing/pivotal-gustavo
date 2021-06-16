@@ -9,7 +9,7 @@ import java.util.Map;
 public class ApiRequest<T> {
     private String baseUri;
     private String endpoint;
-    private T body;
+    private String body;
     //   private String token;
     private Enum<ApiMethod> method;
     private List<Header> headers;
@@ -38,14 +38,14 @@ public class ApiRequest<T> {
         this.endpoint = endpoint;
     }
 
-    public T getBody() {
+    public String getBody() {
         if (body==null) {
-            return (T) "";
+            return "";
         }
         return body;
     }
 
-    public void setBody(T body) {
+    public void setBody(String body) {
         this.body = body;
     }
 

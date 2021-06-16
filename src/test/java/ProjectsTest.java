@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Project;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -46,26 +48,25 @@ public class ProjectsTest {
         ApiResponse apiResponse = new ApiResponse(ApiManager.execute(apiRequest));
         Project project = apiResponse.getBody(Project.class);
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
-        Assert.assertEquals(project.getId(), 2504059);
+        Assert.assertEquals(project.getName(), "Executioner test");
+        Assert.assertEquals(project.getCreated_at(), "2021-06-14T02:20:00Z");
         apiResponse.validateBodySchema("schemas/project.json");
     }
 
     @Test
-    public void postCreateProject(){
+    public void postCreateProject() throws JsonProcessingException {
         Project project = new Project();
-        project.setName("Test 345 new today");
+        project.setName("Executioner test 34 xzd222333");
 
         ApiRequest apiRequest= new ApiRequest();
         apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
         apiRequest.addHeaders("X-TrackerToken","1d24b2ee47d04c09615c6811a19fba0a");
         apiRequest.setEndpoint("/projects");
         apiRequest.setMethod(ApiMethod.POST);
- //       apiRequest.setBody(project);
+        apiRequest.setBody(new ObjectMapper().writeValueAsString(project));
 
-
-        ApiResponse apiResponse =new ApiResponse(ApiManager.execute(apiRequest));
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        apiResponse.getResponse().then().log().body();
         Assert.assertEquals(apiResponse.getStatusCode(),200);
     }
-
-
 }
