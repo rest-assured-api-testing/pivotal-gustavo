@@ -9,8 +9,8 @@ import java.util.Map;
 public class ApiRequest {
     private String baseUri;
     private String endpoint;
-    private Object body="";
- //   private String token;
+    private Object body = "";
+    //   private String token;
     private Enum<ApiMethod> method;
     private List<Header> headers;
     private Map<String, String> queryParams;

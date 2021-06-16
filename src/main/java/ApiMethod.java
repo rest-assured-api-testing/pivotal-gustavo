@@ -6,11 +6,11 @@ public enum ApiMethod {
 
     private String name;
 
-    ApiMethod(String name){
-        this.name=name;
+    ApiMethod(String name) {
+        this.name = name;
     }
 
-    public String toName(){
+    public String toName() {
         return name;
     }
 }

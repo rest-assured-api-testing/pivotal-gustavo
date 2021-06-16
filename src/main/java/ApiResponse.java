@@ -15,11 +15,11 @@ public class ApiResponse {
         return response;
     }
 
-    public int getStatusCode(){
-         return response.getStatusCode();
+    public int getStatusCode() {
+        return response.getStatusCode();
     }
 
-    public <T> T getBody(Class <T> cls){
+    public <T> T getBody(Class<T> cls) {
         return response.getBody().as(cls);
     }
 
@@ -27,7 +27,7 @@ public class ApiResponse {
 //        return response.getBody().as(cls);
 //    }
 
-    public void validateBodySchema (String schema){
+    public void validateBodySchema(String schema) {
         response.then().log().body().assertThat().body(matchesJsonSchemaInClasspath(schema));
     }
 }
