@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '4.4.0'
+    implementation group: 'io.rest-assured', name: 'json-path', version: '4.4.0'
+    implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '4.4.0'
+    implementation 'org.springframework:spring-web:5.3.7'
+    implementation 'org.testng:testng:7.1.0'
+}
+
+test {
+    useTestNG()
+}
