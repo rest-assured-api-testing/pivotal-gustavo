@@ -9,7 +9,7 @@ import java.util.Map;
 public class ApiRequest {
     private String baseUri;
     private String endpoint;
-    private String body;
+    private Object body="";
  //   private String token;
     private Enum<ApiMethod> method;
     private List<Header> headers;
@@ -38,11 +38,11 @@ public class ApiRequest {
         this.endpoint = endpoint;
     }
 
-    public String getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 
@@ -62,25 +62,24 @@ public class ApiRequest {
         this.method = method;
     }
 
-
     public void addHeaders(final String header, final String value) {
         headers.add(new Header(header, value));
-    }
-
-    public void addQueryParams(final String param, final String value) {
-        queryParams.put(param, value);
-    }
-
-    public void addPathParams(final String param, final String value) {
-        pathParams.put(param, value);
     }
 
     public Headers getHeaders() {
         return new Headers(headers);
     }
 
+    public void addQueryParams(final String param, final String value) {
+        queryParams.put(param, value);
+    }
+
     public Map<String, String> getQueryParams() {
         return queryParams;
+    }
+
+    public void addPathParams(final String param, final String value) {
+        pathParams.put(param, value);
     }
 
     public Map<String, String> getPathParams() {
