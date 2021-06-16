@@ -50,4 +50,22 @@ public class ProjectsTest {
         apiResponse.validateBodySchema("schemas/project.json");
     }
 
+    @Test
+    public void postCreateProject(){
+        Project project = new Project();
+        project.setName("Test 345 new today");
+
+        ApiRequest apiRequest= new ApiRequest();
+        apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
+        apiRequest.addHeaders("X-TrackerToken","1d24b2ee47d04c09615c6811a19fba0a");
+        apiRequest.setEndpoint("/projects");
+        apiRequest.setMethod(ApiMethod.POST);
+ //       apiRequest.setBody(project);
+
+
+        ApiResponse apiResponse =new ApiResponse(ApiManager.execute(apiRequest));
+        Assert.assertEquals(apiResponse.getStatusCode(),200);
+    }
+
+
 }

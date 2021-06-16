@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApiRequest {
+public class ApiRequest<T> {
     private String baseUri;
     private String endpoint;
-    private Object body = "";
+    private T body;
     //   private String token;
     private Enum<ApiMethod> method;
     private List<Header> headers;
@@ -38,11 +38,14 @@ public class ApiRequest {
         this.endpoint = endpoint;
     }
 
-    public Object getBody() {
+    public T getBody() {
+        if (body==null) {
+            return (T) "";
+        }
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(T body) {
         this.body = body;
     }
 

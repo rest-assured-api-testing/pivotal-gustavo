@@ -8,31 +8,57 @@ import java.util.List;
 
 @JsonPropertyOrder({"name"})
 public class Project {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String kind;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int version;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int iteration_length;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String week_start_day;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String point_scale;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean point_scale_is_custom;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean bugs_and_chores_are_estimatable;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean automatic_planning;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_tasks;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Time_zone time_zone;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int velocity_averaged_over;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int number_of_done_iterations_to_show;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean has_google_domain;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_incoming_emails;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int initial_velocity;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean publicc;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean atom_enabled;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String project_type;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String start_time;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String created_at;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String updated_at;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int account_id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int current_iteration_number;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_following;
 
     public int getId() {
