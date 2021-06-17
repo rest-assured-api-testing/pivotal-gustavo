@@ -24,7 +24,7 @@ public class ProjectCreateAndDelete {
     }
 
     @Test
-    public void deleteProject_removeByOtherUser_403(){
+    public void deleteProject_removeByOtherUser_404(){
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(Parameters.URL_BASE)
                 .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
@@ -33,7 +33,7 @@ public class ProjectCreateAndDelete {
                 .method(ApiMethod.DELETE)
                 .build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Assert.assertEquals(apiResponse.getStatusCode(), 403);
+        Assert.assertEquals(apiResponse.getStatusCode(), 404);
     }
 
     @Test(dependsOnMethods = {"deleteProject_successful_204"})
@@ -49,7 +49,7 @@ public class ProjectCreateAndDelete {
         Assert.assertEquals(apiResponse.getStatusCode(), 403);
     }
 
-    @Test(dependsOnMethods = {"createProject_successful_204"})
+    @Test(dependsOnMethods = {"createProject_successful_200"})
     public void createProject_nameWithSameNameTheOther_400() throws JsonProcessingException {
         Project projectCreate = new Project();
         projectCreate.setName("Project to test");
@@ -66,7 +66,7 @@ public class ProjectCreateAndDelete {
     }
 
     @Test
-    public void createProject_successful_204() throws JsonProcessingException {
+    public void createProject_successful_200() throws JsonProcessingException {
         Project projectCreate = new Project();
         projectCreate.setName("Project to test");
 
@@ -81,7 +81,7 @@ public class ProjectCreateAndDelete {
         Assert.assertEquals(ApiManager.getStatusResponse(), 200);
     }
 
-    @Test(dependsOnMethods = {"createProject_successful_204","createProject_nameWithSameNameTheOther_400"})
+    @Test(dependsOnMethods = {"createProject_successful_200","createProject_nameWithSameNameTheOther_400"})
     public void deleteProject_successful_204(){
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(Parameters.URL_BASE)
