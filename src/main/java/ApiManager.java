@@ -11,7 +11,6 @@ public class ApiManager {
         Response response = buildRequest(apiRequest)
                 .request(apiRequest.getMethod().name(),
                         apiRequest.getEndpoint());
-        status=response.getStatusCode();
         return new ApiResponse(response);
     }
 
@@ -23,9 +22,5 @@ public class ApiManager {
                 .body(apiRequest.getBody())
                 .contentType(ContentType.JSON)
                 .log().all();
-    }
-
-    public static int getStatusResponse(){
-        return status;
     }
 }

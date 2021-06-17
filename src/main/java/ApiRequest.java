@@ -10,7 +10,6 @@ public class ApiRequest<T> {
     private String baseUri;
     private String endpoint;
     private String body;
-    //   private String token;
     private Enum<ApiMethod> method;
     private List<Header> headers;
     private Map<String, String> queryParams;
@@ -48,14 +47,6 @@ public class ApiRequest<T> {
     public void setBody(String body) {
         this.body = body;
     }
-
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
 
     public Enum<ApiMethod> getMethod() {
         return method;

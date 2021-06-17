@@ -8,64 +8,62 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"name"})
 public class Project {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private Long id;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String kind;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int version;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int iteration_length;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String week_start_day;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String point_scale;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean point_scale_is_custom;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean bugs_and_chores_are_estimatable;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean automatic_planning;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_tasks;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Time_zone time_zone;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int velocity_averaged_over;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int number_of_done_iterations_to_show;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean has_google_domain;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_incoming_emails;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int initial_velocity;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean publicc;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean atom_enabled;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String project_type;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String start_time;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String created_at;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String updated_at;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int account_id;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int current_iteration_number;
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enable_following;
 
-    @JsonProperty("id")
     public Long getId() {
         return id;
     }
-    @JsonProperty("id")
+
     public void setId(Long id) {
         this.id = id;
     }
