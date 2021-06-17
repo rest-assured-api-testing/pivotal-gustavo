@@ -5,12 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.List;
-
 @JsonPropertyOrder({"name"})
 public class Project {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
-    private int id;
+    private Long id;
     @JsonIgnore
     private String kind;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,7 +43,6 @@ public class Project {
     @JsonIgnore
     private int initial_velocity;
     @JsonIgnore
-    @JsonProperty("public")
     private boolean publicc;
     @JsonIgnore
     private boolean atom_enabled;
@@ -52,7 +50,6 @@ public class Project {
     private String project_type;
     @JsonIgnore
     private String start_time;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonIgnore
     private String created_at;
     @JsonIgnore
@@ -64,11 +61,12 @@ public class Project {
     @JsonIgnore
     private boolean enable_following;
 
-    public int getId() {
+    @JsonProperty("id")
+    public Long getId() {
         return id;
     }
-
-    public void setId(int id) {
+    @JsonProperty("id")
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -201,7 +199,7 @@ public class Project {
     }
 
     @JsonProperty("public")
-    public boolean isPublicc() {
+    public boolean getPublicc() {
         return publicc;
     }
 

@@ -1,5 +1,3 @@
-
-import entities.Project;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -7,6 +5,15 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class ApiManager {
+    private static int status;
+
+    public static ApiResponse execute(ApiRequest apiRequest) {
+        Response response = buildRequest(apiRequest)
+                .request(apiRequest.getMethod().name(),
+                        apiRequest.getEndpoint());
+        status=response.getStatusCode();
+        return new ApiResponse(response);
+    }
 
     private static RequestSpecification buildRequest(ApiRequest apiRequest) {
         return given().headers(apiRequest.getHeaders())
@@ -18,19 +25,7 @@ public class ApiManager {
                 .log().all();
     }
 
-    public static Response execute(ApiRequest apiRequest) {
-        Response response = buildRequest(apiRequest)
-                .request(apiRequest.getMethod().name(),
-                        apiRequest.getEndpoint());
-        return response;
-    }
-
-    public static ApiResponse executeWithBody(ApiRequest apiRequest){
-        Response response = buildRequest(apiRequest)
-                .body(apiRequest.getBody())
-                .request(apiRequest.getMethod().name()
-                        ,apiRequest.getEndpoint());
-        System.out.println( "-*****--" + apiRequest.getBody());
-        return new ApiResponse(response);
+    public static int getStatusResponse(){
+        return status;
     }
 }

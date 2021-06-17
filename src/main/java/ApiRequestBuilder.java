@@ -15,6 +15,11 @@ public class ApiRequestBuilder implements IBuilderApiResponse {
         return this;
     }
 
+    public ApiRequestBuilder body(String body) {
+        this.apiRequest.setBody(body);
+        return this;
+    }
+
     public ApiRequestBuilder method(Enum<ApiMethod> method) {
         this.apiRequest.setMethod(method);
         return this;
