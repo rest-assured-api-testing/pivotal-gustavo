@@ -1,3 +1,5 @@
+package api;
+
 public enum ApiMethod {
     GET("GET"),
     POST("POST"),

@@ -1,9 +1,9 @@
+import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Project;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,8 +18,8 @@ public class ProjectCreateAndDeleteTest {
         projectCreate.setName("Project to test");
 
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -35,8 +35,8 @@ public class ProjectCreateAndDeleteTest {
         projectCreate.setName("Project_create_in_test_delete");
 
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -49,8 +49,8 @@ public class ProjectCreateAndDeleteTest {
     @AfterMethod(onlyForGroups = "postRequest")
     public void deleteProjectCreated() {
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", projectToDelete.getId().toString())
                 .method(ApiMethod.DELETE)
@@ -62,8 +62,8 @@ public class ProjectCreateAndDeleteTest {
     @AfterMethod(onlyForGroups = "projectWithSameName")
     public void deleteProjectReference() {
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", project.getId().toString())
                 .method(ApiMethod.DELETE)
@@ -78,8 +78,8 @@ public class ProjectCreateAndDeleteTest {
         projectCreate.setName(project.getName());
 
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -93,8 +93,8 @@ public class ProjectCreateAndDeleteTest {
         Project projectCreate = new Project();
         projectCreate.setName("");
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -106,8 +106,8 @@ public class ProjectCreateAndDeleteTest {
     @Test
     public void deleteProject_removeByOtherUser_404(){
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", "441794316")
                 .method(ApiMethod.DELETE)
@@ -122,8 +122,8 @@ public class ProjectCreateAndDeleteTest {
         projectCreate.setName("Project_create_in_test");
 
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -136,8 +136,8 @@ public class ProjectCreateAndDeleteTest {
     @Test(groups = "deleteRequest")
     public void deleteProject_successful_204(){
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", projectToDeleteRequest.getId().toString())
                 .method(ApiMethod.DELETE)

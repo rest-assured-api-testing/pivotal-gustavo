@@ -1,3 +1,5 @@
+package api;
+
 public class ApiRequestBuilder implements IBuilderApiResponse {
     private ApiRequest apiRequest;
 

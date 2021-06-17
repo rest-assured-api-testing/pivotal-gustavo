@@ -1,3 +1,4 @@
+import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Project;
@@ -13,8 +14,8 @@ public class ProjectsTest {
         projectCreate.setName("Project to test");
 
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -25,8 +26,8 @@ public class ProjectsTest {
     @AfterClass
     public void cleanRepository() {
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", project.getId().toString())
                 .method(ApiMethod.DELETE).build();
@@ -51,8 +52,8 @@ public class ProjectsTest {
     @Test
     public void verifySchemaInProject() {
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", project.getId().toString())
                 .method(ApiMethod.GET).build();
@@ -63,8 +64,8 @@ public class ProjectsTest {
     @Test
     public void getAProject_status_200() {
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", project.getId().toString())
                 .method(ApiMethod.GET).build();
@@ -75,8 +76,8 @@ public class ProjectsTest {
     @Test
     public void getAllProjects() {
         ApiRequest apiRequest2 = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse2 = ApiManager.execute(apiRequest2);
@@ -87,8 +88,8 @@ public class ProjectsTest {
         Project projectCreate = new Project();
         projectCreate.setName("");
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects")
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
@@ -100,8 +101,8 @@ public class ProjectsTest {
     @Test
     public void deleteProject_removeByOtherUser_404(){
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(Parameters.URL_BASE)
-                .headers(Parameters.KEY_VALUE, Parameters.VALUE_KEY)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", "441794316")
                 .method(ApiMethod.DELETE)
