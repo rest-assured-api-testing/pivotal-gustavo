@@ -2,13 +2,13 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class Comment {
+public class CommentInEpic {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String kind;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long story_id;
+    private Long epic_id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String text;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -34,12 +34,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getStory_id() {
-        return story_id;
+    public Long getEpic_id() {
+        return epic_id;
     }
 
-    public void setStory_id(Long story_id) {
-        this.story_id = story_id;
+    public void setEpic_id(Long epic_id) {
+        this.epic_id = epic_id;
     }
 
     public String getText() {
