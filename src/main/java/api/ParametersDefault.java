@@ -9,9 +9,12 @@ public class ParametersDefault {
     public static String LABEL_ID="labelsId";
     public static String STORY_ID="storiesId";
     public static String WORKSPACE_ID="workspaceId";
+    public static String COMMENT_ID="commentId";
 
     public static String END_POINT_STORY="projects/{projectId}/stories/";
     public static String END_POINT_STORY_TO_MODIFY ="projects/{projectId}/stories/{storiesId}";
     public static String END_POINT_WORKSPACE="my/workspaces";
     public static String END_POINT_WORKSPACE_TO_MODIFY ="my/workspaces/{workspaceId}";
+    public static String END_POINT_COMMENT="projects/{projectId}/stories/{storiesId}/comments";
+    public static String END_POINT_COMMENT_TO_MODIFY ="projects/{projectId}/stories/{storiesId}/comments/{commentId}";
 }

@@ -80,7 +80,7 @@ public class WorkspaceTest {
     }
 
     @Test(groups = "deleteWorkspace")
-    public void deleteWorkspace_successful_203() {
+    public void deleteWorkspace_successful_204() {
         ApiRequest apiRequest = baseRequest()
                 .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceCreated)

@@ -78,7 +78,7 @@ public class StoryTest extends ProjectDefault{
     }
 
     @Test(groups = "deleteStory")
-    public void deleteStory_successful_203() {
+    public void deleteStory_successful_204() {
         ApiRequest apiRequest = baseRequestLabel()
                 .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
                 .pathParams(ParametersDefault.STORY_ID, idStoryToDelete)
