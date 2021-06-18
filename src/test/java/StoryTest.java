@@ -46,11 +46,11 @@ public class StoryTest extends ProjectDefault{
                 .method(ApiMethod.POST).build();
         idStoryPut = ApiManager.execute(apiRequest).getBody(Story.class).getId().toString();
     }
-    
+
     @Test(groups = "verifySchemaStory")
     public void verifySchemaInStory() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
                 .pathParams(ParametersDefault.STORY_ID, idStoryToVerifySchema)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -80,7 +80,7 @@ public class StoryTest extends ProjectDefault{
     @Test(groups = "deleteStory")
     public void deleteStory_successful_203() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
                 .pathParams(ParametersDefault.STORY_ID, idStoryToDelete)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -93,7 +93,7 @@ public class StoryTest extends ProjectDefault{
         story2.setName("Change-The-Name-Story-to-PUT");
 
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
                 .pathParams(ParametersDefault.STORY_ID, idStoryPut)
                 .body(new ObjectMapper().writeValueAsString(story2))
                 .method(ApiMethod.PUT).build();
@@ -113,7 +113,7 @@ public class StoryTest extends ProjectDefault{
     }
 
     @Test
-    public void createLabel_withNameHasSpace_400() throws JsonProcessingException {
+    public void createStory_withNameHasSpace_400() throws JsonProcessingException {
         Story story=new Story();
         story.setName(" ");
         ApiRequest apiRequest = baseRequestLabel()
