@@ -1,3 +1,5 @@
+package api;
+
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 
@@ -6,11 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApiRequest {
+public class ApiRequest<T> {
     private String baseUri;
     private String endpoint;
-    private Object body = "";
-    //   private String token;
+    private String body;
     private Enum<ApiMethod> method;
     private List<Header> headers;
     private Map<String, String> queryParams;
@@ -38,21 +39,16 @@ public class ApiRequest {
         this.endpoint = endpoint;
     }
 
-    public Object getBody() {
+    public String getBody() {
+        if (body==null) {
+            return "";
+        }
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(String body) {
         this.body = body;
     }
-
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
 
     public Enum<ApiMethod> getMethod() {
         return method;
