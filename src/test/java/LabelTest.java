@@ -35,6 +35,66 @@ public class LabelTest {
         idProject = ApiManager.execute(apiRequest).getBody(Project.class).getId().toString();
     }
 
+    @BeforeMethod(onlyForGroups = "putLabel")
+    public void createEpicToPut() throws JsonProcessingException {
+        Label label=new Label();
+        label.setName("Test-Label-to-test-PUT");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/labels/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(label))
+                .method(ApiMethod.POST).build();
+        idLabelPut = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+    }
+
+    @BeforeMethod(onlyForGroups = "getLabel")
+    public void createLabelToGet() throws JsonProcessingException {
+        Label label=new Label();
+        label.setName("Test-Label-to-GET");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/labels/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(label))
+                .method(ApiMethod.POST).build();
+        idLabelToGet = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+    }
+
+    @BeforeMethod(onlyForGroups = "verifySchemaLabel")
+    public void createLabelToVerifySchemaLabel() throws JsonProcessingException {
+        Label label=new Label();
+        label.setName("Test-Label-to-verify-Schema");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/labels/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(label))
+                .method(ApiMethod.POST).build();
+        idLabelToVerifySchema = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+    }
+
+    @BeforeMethod(onlyForGroups = "postTwoLabel-sameName")
+    public void createLabelToNegativeTest() throws JsonProcessingException {
+        Label label=new Label();
+        label.setName("Test-Label-Duplicate");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/labels/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(label))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+    }
+
+    @BeforeMethod(onlyForGroups = "deleteLabel")
+    public void createEpicToDelete() throws JsonProcessingException {
+        Label label=new Label();
+        label.setName("Test-Label-to-test-DELETE");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/labels/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(label))
+                .method(ApiMethod.POST).build();
+        idLabelToDelete = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+    }
+
     @AfterClass
     public void deleteProjectReference() {
         ApiRequest apiRequest = baseRequest()
@@ -68,28 +128,17 @@ public class LabelTest {
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
-    @BeforeMethod(onlyForGroups = "getLabel")
-    public void createLabelToGet() throws JsonProcessingException {
+    @Test(groups = "postTwoLabel-sameName")
+    public void createEpic_withTwoLabelWithSameName_400() throws JsonProcessingException {
         Label label=new Label();
-        label.setName("Test-Label-to-GET");
+        label.setName("Test-Label-Duplicate");
         ApiRequest apiRequest = baseRequest()
                 .endpoint("projects/{projectId}/labels/")
                 .pathParams("projectId", idProject)
                 .body(new ObjectMapper().writeValueAsString(label))
                 .method(ApiMethod.POST).build();
-        idLabelToGet = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
-    }
-
-    @BeforeMethod(onlyForGroups = "verifySchemaLabel")
-    public void createLabelToVerifySchemaLabel() throws JsonProcessingException {
-        Label label=new Label();
-        label.setName("Test-Label-to-verify-Schema");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/labels/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(label))
-                .method(ApiMethod.POST).build();
-        idLabelToVerifySchema = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 400);
     }
 
     @Test(groups = "getLabel")
@@ -115,18 +164,6 @@ public class LabelTest {
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
-    @BeforeMethod(onlyForGroups = "deleteLabel")
-    public void createEpicToDelete() throws JsonProcessingException {
-        Label label=new Label();
-        label.setName("Test-Label-to-test-DELETE");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/labels/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(label))
-                .method(ApiMethod.POST).build();
-        idLabelToDelete = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
-    }
-
     @Test(groups = "deleteLabel")
     public void deleteEpic_successful_203() {
         ApiRequest apiRequest = baseRequest()
@@ -136,18 +173,6 @@ public class LabelTest {
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 204);
-    }
-
-    @BeforeMethod(onlyForGroups = "putLabel")
-    public void createEpicToPut() throws JsonProcessingException {
-        Label label=new Label();
-        label.setName("Test-Label-to-test-PUT");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/labels/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(label))
-                .method(ApiMethod.POST).build();
-        idLabelPut = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
     }
 
     @Test(groups = "putLabel")
@@ -163,31 +188,6 @@ public class LabelTest {
                 .method(ApiMethod.PUT).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
-    }
-
-    @BeforeMethod(onlyForGroups = "postTwoLabel-sameName")
-    public void createLabelToNegativeTest() throws JsonProcessingException {
-        Label label=new Label();
-        label.setName("Test-Label-Duplicate");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/labels/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(label))
-                .method(ApiMethod.POST).build();
-        ApiResponse apiResponse = ApiManager.execute(apiRequest);
-    }
-
-    @Test(groups = "postTwoLabel-sameName")
-    public void createEpic_withTwoLabelWithSameName_400() throws JsonProcessingException {
-        Label label=new Label();
-        label.setName("Test-Label-Duplicate");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/labels/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(label))
-                .method(ApiMethod.POST).build();
-        ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Assert.assertEquals(apiResponse.getStatusCode(), 400);
     }
 
     @Test
