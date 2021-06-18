@@ -83,6 +83,7 @@ public class ProjectsTest {
         ApiResponse apiResponse2 = ApiManager.execute(apiRequest2);
         Assert.assertEquals(apiResponse2.getStatusCode(), 200);
     }
+
     @Test
     public void createProject_nameIsEmpty_400() throws JsonProcessingException {
         Project projectCreate = new Project();
@@ -99,7 +100,7 @@ public class ProjectsTest {
     }
 
     @Test
-    public void deleteProject_removeByOtherUser_404(){
+    public void deleteProject_removeByOtherUser_404() {
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
                 .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)

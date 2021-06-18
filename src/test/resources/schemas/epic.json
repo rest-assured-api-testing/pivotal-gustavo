@@ -20,9 +20,6 @@
     "name": {
       "type": "string"
     },
-    "description": {
-      "type": "string"
-    },
     "url": {
       "type": "string"
     },
@@ -65,7 +62,6 @@
     "updated_at",
     "project_id",
     "name",
-    "description",
     "url",
     "label"
   ]

@@ -11,6 +11,7 @@ public class EpicTest {
     private String idEpic;
     private String idEpicDelete;
     private String idEpicPut;
+    private String idEpicverifySchema;
 
     public IBuilderApiResponse baseRequest() {
         return new ApiRequestBuilder()
@@ -52,6 +53,18 @@ public class EpicTest {
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         idEpic = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
+    }
+
+    @BeforeMethod(onlyForGroups = "verifySchemaEpic")
+    public void createEpicToVerifySchemaEpic() throws JsonProcessingException {
+        Epic epic = new Epic();
+        epic.setName("Test-Epic-to-test-SchemaEpic");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/epics/")
+                .pathParams("projectId", idProject)
+                .body(new ObjectMapper().writeValueAsString(epic))
+                .method(ApiMethod.POST).build();
+        idEpicverifySchema = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
     }
 
     @BeforeMethod(onlyForGroups = "deleteEpic")
@@ -119,6 +132,18 @@ public class EpicTest {
                 .pathParams("epicId", idEpic)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 200);
+    }
+
+    @Test(groups = "verifySchemaEpic")
+    public void verifySchemaInEpic() {
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/{projectId}/epics/{epicId}")
+                .pathParams("projectId", idProject)
+                .pathParams("epicId", idEpicverifySchema)
+                .method(ApiMethod.GET).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        apiResponse.validateBodySchema("schemas/epic.json");
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 

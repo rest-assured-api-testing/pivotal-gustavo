@@ -8,9 +8,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ProjectCreateAndDeleteTest {
-    private Project projectToDelete =new Project();
-    private Project projectToDeleteRequest=new Project();
-    private Project project=new Project();
+    private Project projectToDelete = new Project();
+    private Project projectToDeleteRequest = new Project();
+    private Project project = new Project();
 
     @BeforeMethod(onlyForGroups = "projectWithSameName")
     public void createProjectReference() throws JsonProcessingException {
@@ -104,7 +104,7 @@ public class ProjectCreateAndDeleteTest {
     }
 
     @Test
-    public void deleteProject_removeByOtherUser_404(){
+    public void deleteProject_removeByOtherUser_404() {
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
                 .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
@@ -134,7 +134,7 @@ public class ProjectCreateAndDeleteTest {
     }
 
     @Test(groups = "deleteRequest")
-    public void deleteProject_successful_204(){
+    public void deleteProject_successful_204() {
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
                 .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
