@@ -36,7 +36,7 @@ public class LabelTest {
     }
 
     @BeforeMethod(onlyForGroups = "putLabel")
-    public void createEpicToPut() throws JsonProcessingException {
+    public void createLabelToPut() throws JsonProcessingException {
         Label label=new Label();
         label.setName("Test-Label-to-test-PUT");
         ApiRequest apiRequest = baseRequest()
@@ -84,7 +84,7 @@ public class LabelTest {
     }
 
     @BeforeMethod(onlyForGroups = "deleteLabel")
-    public void createEpicToDelete() throws JsonProcessingException {
+    public void createLabelToDelete() throws JsonProcessingException {
         Label label=new Label();
         label.setName("Test-Label-to-test-DELETE");
         ApiRequest apiRequest = baseRequest()
@@ -129,7 +129,7 @@ public class LabelTest {
     }
 
     @Test(groups = "postTwoLabel-sameName")
-    public void createEpic_withTwoLabelWithSameName_400() throws JsonProcessingException {
+    public void createLabel_withTwoLabelWithSameName_400() throws JsonProcessingException {
         Label label=new Label();
         label.setName("Test-Label-Duplicate");
         ApiRequest apiRequest = baseRequest()
@@ -142,7 +142,7 @@ public class LabelTest {
     }
 
     @Test(groups = "getLabel")
-    public void getEpic_successful_200() {
+    public void getLabel_successful_200() {
         ApiRequest apiRequest = baseRequest()
                 .endpoint("projects/{projectId}/labels/{labelsId}")
                 .pathParams("projectId", idProject)
@@ -165,7 +165,7 @@ public class LabelTest {
     }
 
     @Test(groups = "deleteLabel")
-    public void deleteEpic_successful_203() {
+    public void deleteLabel_successful_203() {
         ApiRequest apiRequest = baseRequest()
                 .endpoint("projects/{projectId}/labels/{labelsId}")
                 .pathParams("projectId", idProject)
