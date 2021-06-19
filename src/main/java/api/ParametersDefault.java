@@ -15,6 +15,8 @@ public class ParametersDefault {
     public static String COMMENT_ID="commentId";
     public static String BLOCKER_ID="blockersId";
 
+    public static String END_POINT_PROJECT="/projects";
+    public static String END_POINT_PROJECT_TO_MODIFY ="/projects/{projectId}";
     public static String END_POINT_USER_ACCOUNTS="/accounts";
     public static String END_POINT_EPIC="projects/{projectId}/epics/";
     public static String END_POINT_EPIC_TO_MODIFY ="projects/{projectId}/epics/{epicId}";
