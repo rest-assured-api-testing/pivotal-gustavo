@@ -1,3 +1,5 @@
+package generalSetting;
+
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,11 @@ import org.testng.annotations.BeforeClass;
 public class ProjectDefault {
     protected String idProject;
 
+    /**
+     * Setup token and main URL general in test
+     *
+     * @return IBuilderApiResponse in order to permit to set that testes need.
+     */
     public IBuilderApiResponse baseRequest() {
         return new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
@@ -29,7 +36,7 @@ public class ProjectDefault {
     @AfterClass
     public void deleteProjectReference() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, idProject)
                 .method(ApiMethod.DELETE)
                 .build();

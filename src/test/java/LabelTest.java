@@ -1,8 +1,9 @@
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Epic;
 import entities.Label;
+import generalSetting.ParametersDefault;
+import generalSetting.ProjectDefault;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +40,7 @@ public class LabelTest extends ProjectDefault {
     @AfterMethod(onlyForGroups = {"getLabel","putLabel","verifySchemaLabel","postTwoLabel-sameName"})
     public void deleteLabelTest() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_LABEL_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_LABEL_TO_INTERACT)
                 .pathParams(ParametersDefault.LABEL_ID, idLabelTest)
                 .method(ApiMethod.DELETE)
                 .build();
@@ -82,7 +83,7 @@ public class LabelTest extends ProjectDefault {
     @Test(groups = "getLabel")
     public void getLabel_successful_200() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_LABEL_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_LABEL_TO_INTERACT)
                 .pathParams(ParametersDefault.LABEL_ID, idLabelTest)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -92,7 +93,7 @@ public class LabelTest extends ProjectDefault {
    @Test(groups = "verifySchemaLabel")
     public void verifySchemaInLabel() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_LABEL_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_LABEL_TO_INTERACT)
                 .pathParams(ParametersDefault.LABEL_ID, idLabelTest)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -102,7 +103,7 @@ public class LabelTest extends ProjectDefault {
     @Test(groups = "deleteLabel")
     public void deleteLabel_successful_203() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_LABEL_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_LABEL_TO_INTERACT)
                 .pathParams(ParametersDefault.LABEL_ID, idLabelTest)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -115,7 +116,7 @@ public class LabelTest extends ProjectDefault {
         label.setName("Change-The-Name-Label");
 
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_LABEL_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_LABEL_TO_INTERACT)
                 .pathParams(ParametersDefault.LABEL_ID, idLabelTest)
                 .body(new ObjectMapper().writeValueAsString(label))
                 .method(ApiMethod.PUT).build();

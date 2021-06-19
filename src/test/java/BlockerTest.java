@@ -2,16 +2,24 @@ import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.*;
+import generalSetting.ParametersDefault;
+import generalSetting.ProjectDefault;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BlockerTest extends ProjectDefault{
+public class BlockerTest extends ProjectDefault {
     private String idStoryReference;
     private String idBlockerReference;
 
+    /**
+     * Setup the end point to get comment in story
+     * Setup parameters of project and story in which test work
+     *
+     * @return IBuilderApiResponse in order to permit to set that testes need.
+     */
     public IBuilderApiResponse baseRequestBlocker() {
         return baseRequest()
                 .endpoint(ParametersDefault.END_POINT_COMMENT_IN_STORY)
@@ -66,7 +74,7 @@ public class BlockerTest extends ProjectDefault{
     @AfterMethod(onlyForGroups = {"getBlocker","putBlocker","verifyBlockerStory"})
     public void deleteBlockerCreated() {
         ApiRequest apiRequest = baseRequestBlocker()
-                .endpoint(ParametersDefault.END_POINT_BLOCKER_TO_MODIFY_IN_STORY)
+                .endpoint(ParametersDefault.END_POINT_BLOCKER_IN_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.BLOCKER_ID, idBlockerReference)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -76,7 +84,7 @@ public class BlockerTest extends ProjectDefault{
     @Test(groups = "getBlocker")
     public void getBlocker_successful_200() {
         ApiRequest apiRequest = baseRequestBlocker()
-                .endpoint(ParametersDefault.END_POINT_BLOCKER_TO_MODIFY_IN_STORY)
+                .endpoint(ParametersDefault.END_POINT_BLOCKER_IN_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.BLOCKER_ID, idBlockerReference)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -86,7 +94,7 @@ public class BlockerTest extends ProjectDefault{
     @Test(groups = "deleteBlocker")
     public void deleteBlocker_successful_204() {
         ApiRequest apiRequest = baseRequestBlocker()
-                .endpoint(ParametersDefault.END_POINT_BLOCKER_TO_MODIFY_IN_STORY)
+                .endpoint(ParametersDefault.END_POINT_BLOCKER_IN_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.BLOCKER_ID, idBlockerReference)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -99,7 +107,7 @@ public class BlockerTest extends ProjectDefault{
         blockers.setDescription("Change-The-description-In-Blocker");
 
         ApiRequest apiRequest = baseRequestBlocker()
-                .endpoint(ParametersDefault.END_POINT_BLOCKER_TO_MODIFY_IN_STORY)
+                .endpoint(ParametersDefault.END_POINT_BLOCKER_IN_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.BLOCKER_ID, idBlockerReference)
                 .body(new ObjectMapper().writeValueAsString(blockers))
                 .method(ApiMethod.PUT).build();
@@ -110,7 +118,7 @@ public class BlockerTest extends ProjectDefault{
     @Test(groups = "verifyBlockerStory")
     public void verifySchemaToBlocker() {
         ApiRequest apiRequest = baseRequestBlocker()
-                .endpoint(ParametersDefault.END_POINT_BLOCKER_TO_MODIFY_IN_STORY)
+                .endpoint(ParametersDefault.END_POINT_BLOCKER_IN_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.BLOCKER_ID, idBlockerReference)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);

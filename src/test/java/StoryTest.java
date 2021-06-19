@@ -1,8 +1,9 @@
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Epic;
 import entities.Story;
+import generalSetting.ParametersDefault;
+import generalSetting.ProjectDefault;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +40,7 @@ public class StoryTest extends ProjectDefault {
     @AfterMethod(onlyForGroups = {"verifySchemaStory", "putStory","getStory"})
     public void deleteStoryReference() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.STORY_ID, idStory)
                 .method(ApiMethod.DELETE)
                 .build();
@@ -71,7 +72,7 @@ public class StoryTest extends ProjectDefault {
     @Test(groups = "getStory")
     public void getEpic_successful_200() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.STORY_ID, idStory)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -92,7 +93,7 @@ public class StoryTest extends ProjectDefault {
     @Test(groups = "deleteStory")
     public void deleteStory_successful_204() {
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.STORY_ID, idStory)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -105,7 +106,7 @@ public class StoryTest extends ProjectDefault {
         story2.setName("Change-The-Name-Story-to-PUT");
 
         ApiRequest apiRequest = baseRequestLabel()
-                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_INTERACT)
                 .pathParams(ParametersDefault.STORY_ID, idStory)
                 .body(new ObjectMapper().writeValueAsString(story2))
                 .method(ApiMethod.PUT).build();

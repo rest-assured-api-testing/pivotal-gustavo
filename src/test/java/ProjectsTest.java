@@ -2,6 +2,7 @@ import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Project;
+import generalSetting.ParametersDefault;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -35,7 +36,7 @@ public class ProjectsTest {
     @AfterMethod(onlyForGroups={"getProject","verifySchemaProject","createProject","projectWithSameName"})
     public void cleanRepository() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, project.getId().toString())
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -73,7 +74,7 @@ public class ProjectsTest {
     @Test(groups ="verifySchemaProject")
     public void verifySchemaInProject() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, project.getId().toString())
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -83,7 +84,7 @@ public class ProjectsTest {
     @Test(groups = "getProject")
     public void getAProject_status_200() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, project.getId().toString())
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -93,7 +94,7 @@ public class ProjectsTest {
     @Test(groups = "deleteProject")
     public void deleteProject_successful_204() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, project.getId().toString())
                 .method(ApiMethod.DELETE)
                 .build();
@@ -153,7 +154,7 @@ public class ProjectsTest {
     @Test
     public void deleteProject_removeByOtherUser_404() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_INTERACT)
                 .pathParams(ParametersDefault.PROJECT_ID, "441794316")
                 .method(ApiMethod.DELETE)
                 .build();

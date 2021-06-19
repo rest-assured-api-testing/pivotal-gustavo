@@ -2,6 +2,8 @@ import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Epic;
+import generalSetting.ParametersDefault;
+import generalSetting.ProjectDefault;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -35,7 +37,7 @@ public class EpicTest extends ProjectDefault {
     @AfterMethod(onlyForGroups = {"getEpic","postEpic-Duplicate","verifySchemaEpic","putEpic","createEpic"})
     public void deleteEpicReference() {
         ApiRequest apiRequest = baseRequestEpic()
-                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.DELETE)
                 .build();
@@ -79,7 +81,7 @@ public class EpicTest extends ProjectDefault {
     @Test(groups = "getEpic")
     public void getEpic_successful_200() {
         ApiRequest apiRequest = baseRequestEpic()
-                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -89,7 +91,7 @@ public class EpicTest extends ProjectDefault {
     @Test(groups = "verifySchemaEpic")
     public void verifySchemaInEpic() {
         ApiRequest apiRequest = baseRequestEpic()
-                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -99,7 +101,7 @@ public class EpicTest extends ProjectDefault {
     @Test(groups = "deleteEpic")
     public void deleteEpic_successful_203() {
         ApiRequest apiRequest = baseRequestEpic()
-                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -111,7 +113,7 @@ public class EpicTest extends ProjectDefault {
         Epic epic = new Epic();
         epic.setName("Change the name epic");
         ApiRequest apiRequest = baseRequestEpic()
-                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.PUT).build();

@@ -1,8 +1,8 @@
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Epic;
 import entities.Workspace;
+import generalSetting.ParametersDefault;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -12,6 +12,12 @@ public class WorkspaceTest {
     private String idWorkspaceToDelete;
     private String idWorkspaceCreated;
 
+    /**
+     * Setup the end point to get Workspace
+     * Setup token and main URL general in test
+     *
+     * @return IBuilderApiResponse in order to permit to set that testes need.
+     */
     public IBuilderApiResponse baseRequest() {
         return new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
@@ -43,7 +49,7 @@ public class WorkspaceTest {
     @AfterMethod(onlyForGroups = "postWorkspace")
     public void deleteWorkspaceCreate() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_INTERACT)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceToDelete)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -64,7 +70,7 @@ public class WorkspaceTest {
     @Test(groups = "verifySchemaWorkspace")
     public void verifySchemaInWorkspace() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_INTERACT)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceCreated)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -74,7 +80,7 @@ public class WorkspaceTest {
     @AfterMethod(onlyForGroups = {"verifySchemaWorkspace","putWorkspace"})
     public void deleteWorkspaceCreateToVerifySchemaInWorkspace() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_INTERACT)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceCreated)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -83,7 +89,7 @@ public class WorkspaceTest {
     @Test(groups = "deleteWorkspace")
     public void deleteWorkspace_successful_204() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_INTERACT)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceCreated)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -96,7 +102,7 @@ public class WorkspaceTest {
         workspace.setName("Change-The-Name-Workspace-to-PUT");
 
         ApiRequest apiRequest = baseRequest()
-                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_MODIFY)
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE_TO_INTERACT)
                 .pathParams(ParametersDefault.WORKSPACE_ID, idWorkspaceCreated)
                 .body(new ObjectMapper().writeValueAsString(workspace))
                 .method(ApiMethod.PUT).build();

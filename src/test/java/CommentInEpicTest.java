@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.CommentInEpic;
 import entities.CommentInStory;
 import entities.Epic;
-import entities.Story;
+import generalSetting.ParametersDefault;
+import generalSetting.ProjectDefault;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -56,7 +57,7 @@ public class CommentInEpicTest extends ProjectDefault {
     @AfterMethod(onlyForGroups = {"getCommentTest","verifyCommentEpic","putCommentEpic"})
     public void deleteCommentCreated() {
         ApiRequest apiRequest = baseRequestComment()
-                .endpoint(ParametersDefault.END_POINT_COMMENT_TO_MODIFY_IN_EPIC)
+                .endpoint(ParametersDefault.END_POINT_COMMENT_IN_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.COMMENT_ID, idCommentToTest)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -88,7 +89,7 @@ public class CommentInEpicTest extends ProjectDefault {
     @Test(groups = "getCommentTest")
     public void getCommentTest_successful_200() {
         ApiRequest apiRequest = baseRequestComment()
-                .endpoint(ParametersDefault.END_POINT_COMMENT_TO_MODIFY_IN_EPIC)
+                .endpoint(ParametersDefault.END_POINT_COMMENT_IN_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.COMMENT_ID, idCommentToTest)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -109,7 +110,7 @@ public class CommentInEpicTest extends ProjectDefault {
     @Test(groups = "verifyCommentEpic")
     public void verifySchemaToComment() {
         ApiRequest apiRequest = baseRequestComment()
-                .endpoint(ParametersDefault.END_POINT_COMMENT_TO_MODIFY_IN_EPIC)
+                .endpoint(ParametersDefault.END_POINT_COMMENT_IN_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.COMMENT_ID, idCommentToTest)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -119,7 +120,7 @@ public class CommentInEpicTest extends ProjectDefault {
     @Test(groups = "deleteCommentEpic")
     public void deleteComment_successful_204() {
         ApiRequest apiRequest = baseRequestComment()
-                .endpoint(ParametersDefault.END_POINT_COMMENT_TO_MODIFY_IN_EPIC)
+                .endpoint(ParametersDefault.END_POINT_COMMENT_IN_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.COMMENT_ID, idCommentToTest)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -132,7 +133,7 @@ public class CommentInEpicTest extends ProjectDefault {
         commentInEpic.setText("Change-The-Comment-In-Story");
 
         ApiRequest apiRequest = baseRequestComment()
-                .endpoint(ParametersDefault.END_POINT_COMMENT_TO_MODIFY_IN_EPIC)
+                .endpoint(ParametersDefault.END_POINT_COMMENT_IN_EPIC_TO_INTERACT)
                 .pathParams(ParametersDefault.COMMENT_ID, idCommentToTest)
                 .body(new ObjectMapper().writeValueAsString(commentInEpic))
                 .method(ApiMethod.PUT).build();
