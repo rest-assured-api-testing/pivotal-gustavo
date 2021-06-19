@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "story_id": {
+      "type": "integer"
+    },
+    "person_id": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "string"
+    },
+    "resolved": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "id",
+    "story_id",
+    "person_id",
+    "description",
+    "resolved",
+    "created_at",
+    "updated_at"
+  ]
+}
