@@ -1,6 +1,7 @@
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.Epic;
 import entities.Workspace;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -119,6 +120,18 @@ public class WorkspaceTest {
     public void createWorkspace_withNameHasSpace_400() throws JsonProcessingException {
         Workspace workspace=new Workspace();
         workspace.setName("");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint(ParametersDefault.END_POINT_WORKSPACE)
+                .body(new ObjectMapper().writeValueAsString(workspace))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 400);
+    }
+
+    @Test
+    public void createWorkspace_withNullName_400() throws JsonProcessingException {
+        Workspace workspace=new Workspace();
+        workspace.setName(null);
         ApiRequest apiRequest = baseRequest()
                 .endpoint(ParametersDefault.END_POINT_WORKSPACE)
                 .body(new ObjectMapper().writeValueAsString(workspace))
