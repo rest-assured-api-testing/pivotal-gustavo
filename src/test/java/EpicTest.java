@@ -6,96 +6,30 @@ import entities.Project;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class EpicTest {
-    private String idProject;
+public class EpicTest extends ProjectDefault {
     private String idEpic;
-    private String idEpicDelete;
-    private String idEpicPut;
-    private String idEpicverifySchema;
 
-    public IBuilderApiResponse baseRequest() {
-        return new ApiRequestBuilder()
-                .baseUri(ParametersDefault.URL_BASE)
-                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY);
+    public IBuilderApiResponse baseRequestEpic() {
+        return baseRequest()
+                .endpoint(ParametersDefault.END_POINT_EPIC)
+                .pathParams(ParametersDefault.PROJECT_ID, idProject);
     }
 
-    @BeforeClass
-    public void createProjectReference() throws JsonProcessingException {
-        Project projectCreate = new Project();
-        projectCreate.setName("Project to test epic 2");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("/projects")
-                .method(ApiMethod.POST)
-                .body(new ObjectMapper().writeValueAsString(projectCreate))
-                .build();
-        idProject = ApiManager.execute(apiRequest).getBody(Project.class).getId().toString();
-    }
-
-    @BeforeMethod(onlyForGroups = "postEpic-Duplicate")
-    public void createEpicToNegativeTest() throws JsonProcessingException {
-        Epic epic = new Epic();
-        epic.setName("Test-Epic-Duplicate");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(epic))
-                .method(ApiMethod.POST).build();
-        ApiResponse apiResponse = ApiManager.execute(apiRequest);
-    }
-
-    @BeforeMethod(onlyForGroups = "getEpic")
+    @BeforeMethod(onlyForGroups = {"getEpic","postEpic-Duplicate","verifySchemaEpic","putEpic","deleteEpic"})
     public void createEpic() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName("Test-Epic-to-test-GET");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
+        ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         idEpic = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
     }
 
-    @BeforeMethod(onlyForGroups = "verifySchemaEpic")
-    public void createEpicToVerifySchemaEpic() throws JsonProcessingException {
-        Epic epic = new Epic();
-        epic.setName("Test-Epic-to-test-SchemaEpic");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(epic))
-                .method(ApiMethod.POST).build();
-        idEpicverifySchema = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
-    }
-
-    @BeforeMethod(onlyForGroups = "deleteEpic")
-    public void createEpicToDelete() throws JsonProcessingException {
-        Epic epic = new Epic();
-        epic.setName("Test-Epic-to-test-GET");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(epic))
-                .method(ApiMethod.POST).build();
-        idEpicDelete = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
-    }
-
-    @BeforeMethod(onlyForGroups = "putEpic")
-    public void createEpicToPut() throws JsonProcessingException {
-        Epic epic = new Epic();
-        epic.setName("Test-Epic-to-test-PUT");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
-                .body(new ObjectMapper().writeValueAsString(epic))
-                .method(ApiMethod.POST).build();
-        idEpicPut = ApiManager.execute(apiRequest).getBody(Epic.class).getId().toString();
-    }
-
-    @AfterClass
-    public void deleteProjectReference() {
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}")
-                .pathParams("projectId", idProject)
+    @AfterMethod(onlyForGroups = {"getEpic","postEpic-Duplicate","verifySchemaEpic","putEpic","createEpic"})
+    public void deleteEpicReference() {
+        ApiRequest apiRequest = baseRequestEpic()
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.DELETE)
                 .build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -103,33 +37,29 @@ public class EpicTest {
 
     @Test
     public void getAllEpicAProject_successful_200() {
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics")
-                .pathParams("projectId", idProject)
+        ApiRequest apiRequest = baseRequestEpic()
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
-    @Test
+    @Test(groups= "createEpic")
     public void createEpic_successful_200() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName("Test-Epic");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
+        ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        idEpic = apiResponse.getBody(Epic.class).getId().toString();
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
     @Test(groups = "getEpic")
     public void getEpic_successful_200() {
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/{epicId}")
-                .pathParams("projectId", idProject)
-                .pathParams("epicId", idEpic)
+        ApiRequest apiRequest = baseRequestEpic()
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
@@ -137,22 +67,19 @@ public class EpicTest {
 
     @Test(groups = "verifySchemaEpic")
     public void verifySchemaInEpic() {
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/{epicId}")
-                .pathParams("projectId", idProject)
-                .pathParams("epicId", idEpicverifySchema)
+        ApiRequest apiRequest = baseRequestEpic()
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         apiResponse.validateBodySchema("schemas/epic.json");
-        Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
     @Test(groups = "deleteEpic")
     public void deleteEpic_successful_203() {
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/{epicId}")
-                .pathParams("projectId", idProject)
-                .pathParams("epicId", idEpicDelete)
+        ApiRequest apiRequest = baseRequestEpic()
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 204);
@@ -162,11 +89,9 @@ public class EpicTest {
     public void putEpic_changeName_200() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName("Change the name epic");
-
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/{epicId}")
-                .pathParams("projectId", idProject)
-                .pathParams("epicId", idEpicPut)
+        ApiRequest apiRequest = baseRequestEpic()
+                .endpoint(ParametersDefault.END_POINT_EPIC_TO_MODIFY)
+                .pathParams(ParametersDefault.EPIC_ID, idEpic)
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.PUT).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -176,10 +101,8 @@ public class EpicTest {
     @Test(groups = "postEpic-Duplicate")
     public void createEpic_withNameSameNameThanOtherEpic_400() throws JsonProcessingException {
         Epic epic = new Epic();
-        epic.setName("Test-Epic-Duplicate");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
+        epic.setName("Test-Epic-to-test-GET");
+        ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -190,9 +113,7 @@ public class EpicTest {
     public void createEpic_withNameEmpty_400() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName("");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
+        ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -203,9 +124,7 @@ public class EpicTest {
     public void createEpic_withNameHasSpace_400() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName(" ");
-        ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}/epics/")
-                .pathParams("projectId", idProject)
+        ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);

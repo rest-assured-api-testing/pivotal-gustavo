@@ -19,7 +19,7 @@ public class ProjectDefault {
         Project projectCreate = new Project();
         projectCreate.setName("Project to test");
         ApiRequest apiRequest = baseRequest()
-                .endpoint("/projects")
+                .endpoint(ParametersDefault.END_POINT_PROJECT)
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectCreate))
                 .build();
@@ -29,8 +29,8 @@ public class ProjectDefault {
     @AfterClass
     public void deleteProjectReference() {
         ApiRequest apiRequest = baseRequest()
-                .endpoint("projects/{projectId}")
-                .pathParams("projectId", idProject)
+                .endpoint(ParametersDefault.END_POINT_PROJECT_TO_MODIFY)
+                .pathParams(ParametersDefault.PROJECT_ID, idProject)
                 .method(ApiMethod.DELETE)
                 .build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
