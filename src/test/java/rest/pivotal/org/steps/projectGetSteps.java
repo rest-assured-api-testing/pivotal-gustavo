@@ -13,7 +13,7 @@ import io.cucumber.java.en.When;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 
-public class ApiSteps {
+public class projectGetSteps {
     private ApiRequest apiRequest = new ApiRequest();
     private ApiResponse apiResponse;
     Project project = new Project();

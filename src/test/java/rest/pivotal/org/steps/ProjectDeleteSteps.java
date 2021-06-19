@@ -13,8 +13,7 @@ import io.cucumber.testng.CucumberOptions;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 
-@CucumberOptions( features = "src/test/resources/features/projectDelete.feature")
-public class DeleteProjectStep {
+public class ProjectDeleteSteps {
     private ApiRequest apiRequest = new ApiRequest();
     private ApiResponse apiResponse;
     Project project = new Project();
