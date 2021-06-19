@@ -1,3 +1,5 @@
+package api;
+
 public class ApiRequestBuilder implements IBuilderApiResponse {
     private ApiRequest apiRequest;
 
@@ -12,6 +14,11 @@ public class ApiRequestBuilder implements IBuilderApiResponse {
 
     public ApiRequestBuilder endpoint(String endpoint) {
         this.apiRequest.setEndpoint(endpoint);
+        return this;
+    }
+
+    public ApiRequestBuilder body(String body) {
+        this.apiRequest.setBody(body);
         return this;
     }
 
