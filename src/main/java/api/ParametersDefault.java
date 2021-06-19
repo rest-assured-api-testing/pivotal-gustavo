@@ -22,6 +22,8 @@ public class ParametersDefault {
     public static String END_POINT_EPIC_TO_MODIFY ="projects/{projectId}/epics/{epicId}";
     public static String END_POINT_STORY="projects/{projectId}/stories/";
     public static String END_POINT_STORY_TO_MODIFY ="projects/{projectId}/stories/{storiesId}";
+    public static String END_POINT_LABEL="projects/{projectId}/labels/";
+    public static String END_POINT_LABEL_TO_MODIFY ="projects/{projectId}/labels/{labelsId}";
     public static String END_POINT_WORKSPACE="my/workspaces";
     public static String END_POINT_WORKSPACE_TO_MODIFY ="my/workspaces/{workspaceId}";
     public static String END_POINT_COMMENT_IN_STORY ="projects/{projectId}/stories/{storiesId}/comments";

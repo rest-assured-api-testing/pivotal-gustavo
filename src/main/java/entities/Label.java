@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class Label {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private long id;
+    private String kind;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long id;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int project_id;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String kind;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,11 +16,11 @@ public class Label {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String updated_at;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

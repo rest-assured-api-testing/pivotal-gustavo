@@ -2,14 +2,18 @@ import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Epic;
-import entities.Project;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class EpicTest extends ProjectDefault {
     private String idEpic;
-    private Epic epicGet;
+    private Epic epicTest;
 
+    /**
+     * Setup end point to get epic in test and path parameters the project in which test work
+     *
+     * @return IBuilderApiResponse in order to permit to set that testes need.
+     */
     public IBuilderApiResponse baseRequestEpic() {
         return baseRequest()
                 .endpoint(ParametersDefault.END_POINT_EPIC)
@@ -24,7 +28,7 @@ public class EpicTest extends ProjectDefault {
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        epicGet=apiResponse.getBody(Epic.class);
+        epicTest =apiResponse.getBody(Epic.class);
         idEpic = apiResponse.getBody(Epic.class).getId().toString();
     }
 
@@ -39,7 +43,7 @@ public class EpicTest extends ProjectDefault {
     }
 
     @Test
-    public void getAllEpicAProject_successful_200() {
+    public void getAllEpicOfProject_successful_200() {
         ApiRequest apiRequest = baseRequestEpic()
                 .method(ApiMethod.GET).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -47,15 +51,15 @@ public class EpicTest extends ProjectDefault {
     }
 
     @Test(groups = "getEpic")
-    public void createDefaultKind_successful_200() {
-        String actual = epicGet.getKind();
+    public void createDefaultThatKindIsEpic_successful_200() {
+        String actual = epicTest.getKind();
         String expected = "epic";
         Assert.assertEquals(actual, expected);
     }
 
     @Test(groups = "getEpic")
-    public void createDefaultHasCorrectID_successful_Epic() {
-        int actual = epicGet.getProject_id();
+    public void createDefaultHasCorrectIDProject_successful_Epic() {
+        int actual = epicTest.getProject_id();
         int expected = Integer.parseInt(idProject);
         Assert.assertEquals(actual, expected);
     }
@@ -118,7 +122,7 @@ public class EpicTest extends ProjectDefault {
     @Test(groups = "postEpic-Duplicate")
     public void createEpic_withNameSameNameThanOtherEpic_400() throws JsonProcessingException {
         Epic epic = new Epic();
-        epic.setName("Test-Epic-to-test-GET");
+        epic.setName(epicTest.getName());
         ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
@@ -172,7 +176,7 @@ public class EpicTest extends ProjectDefault {
     }
 
     @Test
-    public void createEpic_withWrongNotExist_404() throws JsonProcessingException {
+    public void createEpic_withWrongIdProjectNotExist_404() throws JsonProcessingException {
         Epic epic = new Epic();
         epic.setName("Test wrongProject");
         ApiRequest apiRequest = baseRequest()
