@@ -21,7 +21,7 @@ public class WorkspaceTest {
     public IBuilderApiResponse baseRequest() {
         return new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
-                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
+                .headers(ParametersDefault.KEY_TOKEN, ParametersDefault.VALUE_TOKEN)
                 .endpoint(ParametersDefault.END_POINT_WORKSPACE);
     }
 

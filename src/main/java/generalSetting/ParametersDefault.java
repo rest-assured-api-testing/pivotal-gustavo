@@ -2,8 +2,8 @@ package generalSetting;
 
 public class ParametersDefault {
     public static final String URL_BASE = "https://www.pivotaltracker.com/services/v5";
-    public static final String KEY_VALUE = "X-TrackerToken";
-    public static final String VALUE_KEY = "1d24b2ee47d04c09615c6811a19fba0a";
+    public static final String KEY_TOKEN = "X-TrackerToken";
+    public static final String VALUE_TOKEN = "1d24b2ee47d04c09615c6811a19fba0a";
 
     public static final String PROJECT_ID = "projectId";
     public static final String EPIC_ID = "epicId";

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Project;
 import generalSetting.ParametersDefault;
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,8 +19,8 @@ public class DeleteProjectStep {
     private ApiResponse apiResponse;
     Project project = new Project();
 
-    private String valueToken = ParametersDefault.VALUE_KEY;
-    private String keyToken = ParametersDefault.KEY_VALUE;
+    private String valueToken = ParametersDefault.VALUE_TOKEN;
+    private String keyToken = ParametersDefault.KEY_TOKEN;
     private String baseUri = ParametersDefault.URL_BASE;
 
 

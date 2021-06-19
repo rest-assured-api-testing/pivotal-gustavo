@@ -3,8 +3,8 @@ package rest.pivotal.org.steps;
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Epic;
 import entities.Project;
+import entities.Story;
 import generalSetting.ParametersDefault;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -14,23 +14,18 @@ import io.cucumber.java.en.When;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 
-public class PostEpicSteps {
+public class StoryPostSteps {
     private ApiRequest apiRequest = new ApiRequest();
-    private ApiResponse apiResponse;
+    private ApiResponse apiResponseStory;
     private Project project = new Project();
-
-    private String valueToken = ParametersDefault.VALUE_TOKEN;
-    private String keyToken = ParametersDefault.KEY_TOKEN;
-    private String baseUri = ParametersDefault.URL_BASE;
-
 
     @Before
     public void createProject() throws JsonProcessingException {
         Project projectTemp = new Project();
-        projectTemp.setName("Project to create epic");
+        projectTemp.setName("Project to create Story");
         ApiRequest apiRequest = new ApiRequestBuilder()
-                .baseUri(baseUri)
-                .headers(keyToken, valueToken)
+                .baseUri(ParametersDefault.URL_BASE)
+                .headers(ParametersDefault.KEY_TOKEN, ParametersDefault.VALUE_TOKEN)
                 .endpoint(ParametersDefault.END_POINT_PROJECT)
                 .method(ApiMethod.POST)
                 .body(new ObjectMapper().writeValueAsString(projectTemp))
@@ -38,27 +33,27 @@ public class PostEpicSteps {
         project = ApiManager.execute(apiRequest).getBody(Project.class);
     }
 
-    @Given("I build {string} request with id of project to create epic with name {string}")
-    public void iBuildRequest(String method, String nameEpic) throws JsonProcessingException {
-        Epic epic = new Epic();
-        epic.setName(nameEpic);
-        apiRequest.setBody(new ObjectMapper().writeValueAsString(epic));
-        apiRequest.setBaseUri(baseUri);
-        apiRequest.addHeaders(keyToken, valueToken);
+    @Given("I build {string} request with ID of project with name {string}")
+    public void iBuildRequestWithIDOfProjectWithName(String method, String name) throws JsonProcessingException {
+        Story story = new Story();
+        story.setName(name);
+        apiRequest.setBody(new ObjectMapper().writeValueAsString(story));
+        apiRequest.setBaseUri(ParametersDefault.URL_BASE);
+        apiRequest.addHeaders(ParametersDefault.KEY_TOKEN, ParametersDefault.VALUE_TOKEN);
         apiRequest.setMethod(ApiMethod.valueOf(method));
     }
 
-    @When("I execute {string} request to create a epic in a project")
-    public void iExecuteRequest(String endpoint) {
+    @When("I execute {string} request to be create in a project")
+    public void iExecuteRequest(String endpoint){
         apiRequest.setEndpoint(endpoint);
-        apiRequest.addPathParams("projectId", project.getId().toString());
-        apiResponse = ApiManager.execute(apiRequest);
+        apiRequest.addPathParams(ParametersDefault.PROJECT_ID, project.getId().toString());
+        apiResponseStory = ApiManager.execute(apiRequest);
     }
 
-    @Then("the response status code should be successful in order to be {string}")
+    @Then("The response status code should be successful {string}")
     public void theResponseStatusCodeShouldBe(String statusCode) {
-        Assert.assertEquals(apiResponse.getStatusCode(), HttpStatus.SC_OK);
-        apiResponse.getResponse().then().log().body();
+        Assert.assertEquals(apiResponseStory.getStatusCode(), HttpStatus.SC_OK);
+        apiResponseStory.getResponse().then().log().body();
     }
 
     @After

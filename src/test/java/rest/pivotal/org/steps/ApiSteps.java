@@ -18,8 +18,8 @@ public class ApiSteps {
     private ApiResponse apiResponse;
     Project project = new Project();
 
-    private String valueToken = ParametersDefault.VALUE_KEY;
-    private String keyToken = ParametersDefault.KEY_VALUE;
+    private String valueToken = ParametersDefault.VALUE_TOKEN;
+    private String keyToken = ParametersDefault.KEY_TOKEN;
     private String baseUri = ParametersDefault.URL_BASE;
 
 
@@ -61,7 +61,7 @@ public class ApiSteps {
     public void cleanRepository() {
         ApiRequest apiRequest = new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
-                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY)
+                .headers(ParametersDefault.KEY_TOKEN, ParametersDefault.VALUE_TOKEN)
                 .endpoint("/projects/{projectId}")
                 .pathParams("projectId", project.getId().toString())
                 .method(ApiMethod.DELETE).build();

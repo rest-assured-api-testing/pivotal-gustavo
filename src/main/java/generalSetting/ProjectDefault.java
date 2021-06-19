@@ -8,7 +8,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 public class ProjectDefault {
-    protected String idProject;
+    public String idProject;
 
     /**
      * Setup token and main URL general in test
@@ -18,7 +18,7 @@ public class ProjectDefault {
     public IBuilderApiResponse baseRequest() {
         return new ApiRequestBuilder()
                 .baseUri(ParametersDefault.URL_BASE)
-                .headers(ParametersDefault.KEY_VALUE, ParametersDefault.VALUE_KEY);
+                .headers(ParametersDefault.KEY_TOKEN, ParametersDefault.VALUE_TOKEN);
     }
 
     @BeforeClass
