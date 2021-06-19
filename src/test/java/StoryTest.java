@@ -1,61 +1,49 @@
 import api.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.Epic;
 import entities.Story;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class StoryTest extends ProjectDefault{
-    private String idStoryToDelete;
-    private String idStoryPut;
-    private String idStoryToVerifySchema;
+public class StoryTest extends ProjectDefault {
+    private String idStory;
+    private Story storyTest;
 
+    /**
+     * Setup end point to get Story
+     * Set up path parameters the project in which test work
+     *
+     * @return IBuilderApiResponse in order to permit to set that testes need
+     */
     public IBuilderApiResponse baseRequestLabel() {
         return baseRequest()
                 .endpoint(ParametersDefault.END_POINT_STORY)
                 .pathParams(ParametersDefault.PROJECT_ID, idProject);
     }
 
-    @BeforeMethod(onlyForGroups = "verifySchemaStory")
-    public void createStoryToVerifySchemaStory() throws JsonProcessingException {
-        Story story=new Story();
-        story.setName("Test-to-verify-Story-Schema");
+    @BeforeMethod(onlyForGroups = {"verifySchemaStory", "deleteStory", "putStory","getStory"})
+    public void createStory() throws JsonProcessingException {
+        Story story = new Story();
+        story.setName("Test-Story");
         ApiRequest apiRequest = baseRequestLabel()
                 .body(new ObjectMapper().writeValueAsString(story))
                 .method(ApiMethod.POST).build();
-        idStoryToVerifySchema = ApiManager.execute(apiRequest).getBody(Story.class).getId().toString();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        storyTest = apiResponse.getBody(Story.class);
+        idStory = apiResponse.getBody(Story.class).getId().toString();
     }
 
-    @BeforeMethod(onlyForGroups = "deleteStory")
-    public void createStoryToDelete() throws JsonProcessingException {
-        Story story=new Story();
-        story.setName("Test-Story-to-test-DELETE");
-        ApiRequest apiRequest = baseRequestLabel()
-                .body(new ObjectMapper().writeValueAsString(story))
-                .method(ApiMethod.POST).build();
-        idStoryToDelete = ApiManager.execute(apiRequest).getBody(Story.class).getId().toString();
-    }
-
-    @BeforeMethod(onlyForGroups = "putStory")
-    public void createLabelToPut() throws JsonProcessingException {
-        Story story=new Story();
-        story.setName("Test-Label-to-test-PUT");
-        ApiRequest apiRequest = baseRequestLabel()
-                .body(new ObjectMapper().writeValueAsString(story))
-                .method(ApiMethod.POST).build();
-        idStoryPut = ApiManager.execute(apiRequest).getBody(Story.class).getId().toString();
-    }
-
-    @Test(groups = "verifySchemaStory")
-    public void verifySchemaInStory() {
+    @AfterMethod(onlyForGroups = {"verifySchemaStory", "putStory","getStory"})
+    public void deleteStoryReference() {
         ApiRequest apiRequest = baseRequestLabel()
                 .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
-                .pathParams(ParametersDefault.STORY_ID, idStoryToVerifySchema)
-                .method(ApiMethod.GET).build();
+                .pathParams(ParametersDefault.STORY_ID, idStory)
+                .method(ApiMethod.DELETE)
+                .build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        apiResponse.validateBodySchema("schemas/story.json");
-        Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
     @Test
@@ -66,9 +54,33 @@ public class StoryTest extends ProjectDefault{
         Assert.assertEquals(apiResponse.getStatusCode(), 200);
     }
 
+    @Test(groups = "getStory")
+    public void createDefaultThatKindIsStory_successful_200() {
+        String actual = storyTest.getKind();
+        String expected = "story";
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(groups = "getStory")
+    public void createDefaultHasCorrectIDProject_successful_Epic() {
+        String actual = storyTest.getProject_id().toString();
+        String expected = idProject;
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(groups = "getStory")
+    public void getEpic_successful_200() {
+        ApiRequest apiRequest = baseRequestLabel()
+                .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
+                .pathParams(ParametersDefault.STORY_ID, idStory)
+                .method(ApiMethod.GET).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 200);
+    }
+
     @Test
     public void createStoryInProject_successful_200() throws JsonProcessingException {
-        Story story=new Story();
+        Story story = new Story();
         story.setName("Test-Story");
         ApiRequest apiRequest = baseRequestLabel()
                 .body(new ObjectMapper().writeValueAsString(story))
@@ -81,7 +93,7 @@ public class StoryTest extends ProjectDefault{
     public void deleteStory_successful_204() {
         ApiRequest apiRequest = baseRequestLabel()
                 .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
-                .pathParams(ParametersDefault.STORY_ID, idStoryToDelete)
+                .pathParams(ParametersDefault.STORY_ID, idStory)
                 .method(ApiMethod.DELETE).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 204);
@@ -89,12 +101,12 @@ public class StoryTest extends ProjectDefault{
 
     @Test(groups = "putStory")
     public void putStory_changeName_200() throws JsonProcessingException {
-        Story story2=new Story();
+        Story story2 = new Story();
         story2.setName("Change-The-Name-Story-to-PUT");
 
         ApiRequest apiRequest = baseRequestLabel()
                 .endpoint(ParametersDefault.END_POINT_STORY_TO_MODIFY)
-                .pathParams(ParametersDefault.STORY_ID, idStoryPut)
+                .pathParams(ParametersDefault.STORY_ID, idStory)
                 .body(new ObjectMapper().writeValueAsString(story2))
                 .method(ApiMethod.PUT).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -103,7 +115,7 @@ public class StoryTest extends ProjectDefault{
 
     @Test
     public void createStory_withNameEmpty_400() throws JsonProcessingException {
-        Story story=new Story();
+        Story story = new Story();
         story.setName("");
         ApiRequest apiRequest = baseRequestLabel()
                 .body(new ObjectMapper().writeValueAsString(story))
@@ -114,12 +126,60 @@ public class StoryTest extends ProjectDefault{
 
     @Test
     public void createStory_withNameHasSpace_400() throws JsonProcessingException {
-        Story story=new Story();
+        Story story = new Story();
         story.setName(" ");
         ApiRequest apiRequest = baseRequestLabel()
                 .body(new ObjectMapper().writeValueAsString(story))
                 .method(ApiMethod.POST).build();
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Assert.assertEquals(apiResponse.getStatusCode(), 400);
+    }
+
+    @Test
+    public void createStory_withNullName_400() throws JsonProcessingException {
+        Story story = new Story();
+        story.setName(null);
+        ApiRequest apiRequest = baseRequestLabel()
+                .body(new ObjectMapper().writeValueAsString(story))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 400);
+    }
+
+    @Test
+    public void createStory_withWrongProject_403() throws JsonProcessingException {
+        Story story = new Story();
+        story.setName("Test wrong Project");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/2872/stories/")
+                .body(new ObjectMapper().writeValueAsString(story))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 403);
+    }
+
+    @Test
+    public void createStory_withWrongIdProjectNotExist_404() throws JsonProcessingException {
+        Story story = new Story();
+        story.setName("Test wrong Project");
+        ApiRequest apiRequest = baseRequest()
+                .endpoint("projects/9ef97w419/stories/")
+                .body(new ObjectMapper().writeValueAsString(story))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 404);
+    }
+
+    @Test
+    public void createStory_withWrongEndpoint_404() throws JsonProcessingException {
+        Story story = new Story();
+        story.setName(null);
+        ApiRequest apiRequest = baseRequestLabel()
+                .endpoint("projects/{projectId}/storie/")
+                .pathParams(ParametersDefault.PROJECT_ID, idProject)
+                .body(new ObjectMapper().writeValueAsString(story))
+                .method(ApiMethod.POST).build();
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        Assert.assertEquals(apiResponse.getStatusCode(), 404);
     }
 }

@@ -23,7 +23,7 @@ public class EpicTest extends ProjectDefault {
     @BeforeMethod(onlyForGroups = {"getEpic","postEpic-Duplicate","verifySchemaEpic","putEpic","deleteEpic"})
     public void createEpic() throws JsonProcessingException {
         Epic epic = new Epic();
-        epic.setName("Test-Epic-to-test-GET");
+        epic.setName("Test-Epic-to-test");
         ApiRequest apiRequest = baseRequestEpic()
                 .body(new ObjectMapper().writeValueAsString(epic))
                 .method(ApiMethod.POST).build();
